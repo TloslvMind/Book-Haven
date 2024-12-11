@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Book_Detail{% endblock %}
+
+{% block content %}
+<div class="album py-3 bg-body-tertiary">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+      {% for book in books %}
+      <div class="col">
+        <div class="card shadow-sm h-100 d-flex flex-column" style="border-radius: 20px; background-color: azure">
+          <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" height="400px" style="border-radius: 20px">
+          <div class="card-body d-flex flex-column flex-grow-1">
+            <p class="card-text">{{ book.title }}</p>
+            <div class="mt-auto">
+              <div class="d-flex justify-content-evenly align-items-end">
+                <a href="{% url 'library:book_detail' book.slug %}">
+                  <button class="btn btn-success" type="button">Повна версія</button>
+                </a>
+                <a href="{% url 'library:summary' book.slug %}">
+                  <button class="btn btn-success" type="button">Головне з книги</button>
+                </a>
+{#                <a href="{% url 'library:book_detail' book.slug %}">#}
+{#                  <button class="btn btn-success" type="button">Аудіо</button>#}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

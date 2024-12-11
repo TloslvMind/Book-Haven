@@ -1,0 +1,129 @@
+/*body {*/
+/*    background-color: #f4efe8; !* М'який відтінок кремового кольору *!*/
+/*    color: #2c2c2c; !* Темний сірий для тексту для гарного контрасту *!*/
+/*    font-family: 'Arial', sans-serif;*/
+/*}*/
+
+body {
+    background-color: #f4efe8; /* Кремовий фон */
+    color: #2c2c2c; /* Глибокий сірий текст */
+    font-family: 'Georgia', serif; /* Елегантний шрифт */
+}
+
+/* Навігація */
+nav {
+    background-color: #e7e3d6; /* Світло-бежевий для плавного переходу від фону */
+    border-bottom: 1px solid #d6d2c4; /* Легка тінь для елегантності */
+}
+
+nav .nav-link {
+    color: #5c5c5c; /* Темний сірий текст */
+    font-weight: 500; /* Трохи жирний шрифт */
+    transition: color 0.3s ease; /* Плавний ефект при наведенні */
+}
+
+nav .nav-link:hover {
+    color: #2c2c2c; /* Темніший текст */
+}
+
+/* Заголовок */
+header {
+    background-color: #f5f1e8; /* Трохи світліший тон */
+    border-bottom: 1px solid #d6d2c4;
+}
+
+header .fs-3 {
+    color: #2c2c2c; /* Гармонійний темний текст */
+    font-family: 'Merriweather', serif; /* Елегантний заголовок */
+}
+
+header .btn-outline-primary {
+    color: #6b705c; /* Заспокійливий зелений відтінок */
+    border-color: #6b705c;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header .btn-outline-primary:hover {
+    background-color: #6b705c;
+    color: #fff;
+}
+
+/* Футер */
+footer {
+    background-color: #e7e3d6; /* Легкий контраст із основним фоном */
+    color: #5c5c5c; /* Гармонійний сірий текст */
+    font-family: 'Georgia', serif;
+}
+
+footer .nav-link {
+    color: #5c5c5c;
+    transition: color 0.3s ease;
+}
+
+footer .nav-link:hover {
+    color: #2c2c2c;
+}
+
+footer p {
+    color: #5c5c5c;
+}
+
+form {
+    background-color: #f4efe8; /* Кремовий фон форми */
+    padding: 30px;
+    border-radius: 10px; /* Заокруглені кути */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легка тінь */
+}
+
+/* Стилізація полів вводу */
+.form-control {
+    background-color: #fff; /* Білий фон для полів */
+    border: 1px solid #d1d1d1; /* Легка обводка */
+    border-radius: 5px; /* Заокруглені кути */
+    padding: 12px; /* Внутрішній відступ */
+    font-size: 1rem; /* Розмір шрифту */
+    transition: border-color 0.3s ease; /* Плавний перехід при фокусі */
+}
+
+.form-control:focus {
+    border-color: #6b705c; /* Зелений колір при фокусі */
+    box-shadow: 0 0 5px rgba(107, 112, 92, 0.5); /* Легка тінь */
+}
+
+/* Стилізація лейблів */
+.form-label {
+    font-weight: 500; /* Напівжирний шрифт */
+    color: #333; /* Темний текст */
+    display: block; /* Лейбл зверху */
+    margin-bottom: 10px; /* Відступ від поля */
+}
+
+/* Стилізація кнопок */
+.btn-primary {
+    background-color: #6b705c; /* Зелений колір для основної кнопки */
+    border-color: #6b705c;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #4b5d45; /* Темніший зелений при наведенні */
+}
+
+.btn-outline-secondary {
+    background-color: transparent;
+    border-color: #6b705c;
+    color: #6b705c;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6b705c;
+    color: white;
+}
+
+
+.form-control {
+        max-width: 100%;
+        width: auto;
+        border-radius: 4px;
+    }
