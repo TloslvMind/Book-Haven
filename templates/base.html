@@ -33,9 +33,10 @@
     <div class="container text-center">
         <h1 class="fs-3 fw-bold">Ласкаво просимо до Book Haven</h1>
         <p class="fs-5">Зануртесь у світ літератури з ретельно підібраними творами для вас.</p>
-        <form class="d-flex justify-content-center mt-4" role="search">
-            <input type="search" class="form-control w-50 me-2" placeholder="введіть назву книги, жанр, автора або хоча б початок назви" aria-label="Search">
+        <form class="d-flex justify-content-center mt-4" role="search" method="get" action="{% url 'library:search' %}">
+            <input type="search" class="form-control w-50 me-2" placeholder="введіть назву книги, жанр, автора або хоча б початок назви" aria-label="Search" name="query">
             <button type="submit" class="btn btn-outline-primary">Пошук</button>
+            {% csrf_token %}
         </form>
     </div>
 </header>

@@ -1,10 +1,12 @@
 from django.db.migrations import swappable_dependency
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Genre
-from .forms import CommentForm, EmailForm
+from .forms import CommentForm, EmailForm, SearchForm
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+from django.contrib.postgres.search import TrigramSimilarity
+
 # Create your views here.
 def library(request):
     return render(request, 'library/index.html')
@@ -75,3 +77,19 @@ def recommend_book(request, book_slug):
             messages.success(request, 'Вашу рекомендацію було відправлено!')
             return redirect('library:book_detail', book_slug)
     return render(request, 'library/recommend_book.html', {"book": book, 'form': form})
+
+
+def search(request):
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        results = Book.published.annotate(similarity=
+                              TrigramSimilarity('title', query) +
+                              TrigramSimilarity('author', query) +
+                              TrigramSimilarity('description', query) +
+                              TrigramSimilarity('summary', query) +
+                              TrigramSimilarity('genre__genre_name', query) +
+                              TrigramSimilarity('genre__description', query)
+                                          ).filter(similarity__gt=0.2).order_by('-similarity')
+
+        return render(request, 'library/search_results.html', {'results': results})

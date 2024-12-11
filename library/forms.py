@@ -26,3 +26,7 @@ class EmailForm(forms.Form):
     email = forms.EmailField(label='Ваша пошта', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Введіть вашу пошту'}))
     to = forms.EmailField(label='Пошта друга', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Введіть вашу пошту'}))
     comment = forms.CharField(label="Коментар",required=False, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}))
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=40)
