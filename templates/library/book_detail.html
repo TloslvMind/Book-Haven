@@ -3,77 +3,72 @@
 {% block title %}Reader{% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-    <!-- Заголовок книги та опис -->
-    <h1>{{ book.title }}</h1>
-    <p>{{ book.description }}</p>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Ліва частина (основний контент) -->
+        <div class="col-lg-8">
+            <h1 class="mb-3">{{ book.title }}</h1>
+            <p class="text-muted mb-4">{{ book.description }}</p>
 
-{% if messages %}
-    <div id="message-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 220px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 80%; max-width: 800px; font-size: 18px; text-align: center;">
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <!-- Кнопка закриття -->
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-{% endif %}
+            <iframe id="pdfViewer" src="{% static 'pdfjs/web/viewer.html' %}?file={{ book.file.url }}"
+                    width="100%" height="900px" class="mb-4" style="border: none;"></iframe>
 
-    <!-- Рідер PDF -->
-    <iframe id="pdfViewer" src="{% static 'pdfjs/web/viewer.html' %}?file={{ book.file.url }}"
-            width="100%" height="900px" style="border: none;"></iframe>
+            <div class="tags mt-4">
+                <h5 class="mb-3">Пошук за тегами:</h5>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for tag in book.tags.all %}
+                        <a href="{% url 'library:books_by_tag' tag.slug %}">
+                            <span class="badge rounded-pill bg-success text-light py-2 px-3">{{ tag.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
 
-    <!-- Теги книги (гармонійне оформлення з Bootstrap) -->
-    <div class="tags mt-4">
-        <h5>Працює пошук за тегами:</h5>
-        <div class="d-flex flex-wrap gap-2">
-            {% for tag in book.tags.all %}
-                <span class="badge rounded-pill bg-success text-light py-2 px-3">{{ tag.name }}</span>
-            {% endfor %}
+            <div class="comments mt-5">
+                <div class="d-flex gap-3 mb-5">
+                    <a href="{% url 'library:recommend_book' book.slug %}">
+                        <button type="button" class="btn btn-primary btn-sm">Рекомендувати книгу</button>
+                    </a>
+                    <a href="{% url 'library:comment_book' book.slug %}">
+                        <button type="button" class="btn btn-success btn-sm">Залишити коментар</button>
+                    </a>
+                </div>
+                <h3 class="mb-4">Коментарі:</h3>
+                <div id="comments-section">
+                    {% for comment in book.comments.all %}
+                        <div class="comment p-3 mb-3 bg-light rounded">
+                            <p>
+                                <strong>{{ comment.name }}</strong> <span class="text-muted">({{ comment.created_at }})</span>
+                            </p>
+                            <p>{{ comment.body }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Права частина (рекомендації) -->
+        <div class="col-lg-3 mt-5 mt-lg-0">
+            <h4 class="mb-3">Схожі книги:</h4>
+            <div class="recommended-books">
+                {% for similar_book in similar_books %}
+                    <div class="recommended-book mb-3 p-3 bg-light rounded shadow-sm">
+                        <h5 class="mb-2">
+                            <a href="{% url 'library:book_detail' similar_book.slug %}" class="text-decoration-none">
+                                {{ similar_book.title }}
+                            </a>
+                        </h5>
+                        <p class="text-muted">{{ similar_book.description|truncatewords:10 }}</p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-
-<div class="d-flex justify-content-center gap-3 mt-4">
-        <a href="{% url 'library:recommend_book' book.slug %}"><button type="button" class="btn btn-primary btn-lg">Рекомендувати книгу</button></a>
-        <a href="{% url 'library:comment_book' book.slug %}"><button type="button" class="btn btn-success btn-lg">Залишити коментар</button></a>
-    </div>
 </div>
 
-<!-- Коментарі -->
-<div class="container mt-5">
-    <h3>Коментарі</h3>
-    <div id="comments-section">
-        <!-- Секція з коментарями -->
-        {% for comment in book.comments.all %}
-            <div class="comment">
-                <p>Comment {{ forloop.counter }} by<strong> {{ comment.name }}</strong>:<br>{{ comment.body }}</p>
-            </div>
-        {% endfor %}
-    </div>
-
-    <!-- Горизонтальні кнопки -->
 
 
 
-
-
-    <!-- Рекомендації схожих книг -->
-{#    <div class="similar-books mt-5">#}
-{#        <h5>Схожі книги</h5>#}
-{#        <div class="d-flex overflow-auto">#}
-{#            {% for similar_book in similar_books %}#}
-{#                <div class="card me-3" style="width: 18rem;">#}
-{#                    <img src="{{ similar_book.image.url }}" class="card-img-top" alt="{{ similar_book.title }}">#}
-{#                    <div class="card-body">#}
-{#                        <h6 class="card-title">{{ similar_book.title }}</h6>#}
-{#                        <a href="{% url 'book_detail' similar_book.id %}" class="btn btn-outline-info btn-sm">Переглянути</a>#}
-{#                    </div>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    </div>#}
-</div>
 
 {#<script>#}
 {#    // Збереження останньої сторінки в LocalStorage#}

@@ -1,4 +1,5 @@
 {% load static %}
+{% load book_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,29 +13,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <nav class="py-2">
-    <div class="container d-flex flex-wrap">
-        <ul class="nav me-auto">
-            <li class="nav-item"><a href="{% url 'library:index' %}" class="nav-link px-2 active" aria-current="page">Головна</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2">Жанри</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2">Популярні книги</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2">Добірки</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2">Зв'язок</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2">Про нас</a></li>
-        </ul>
-        <ul class="nav">
-            <li class="nav-item"><a href="#" class="nav-link px-2">Login</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2">Sign up</a></li>
-        </ul>
+ <nav class="navbar navbar-expand-lg navbar-light bg-light py-2">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'library:index' %}">Book Haven</a>
+        <!-- Кнопка для мобільного меню -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Основне меню -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a href="{% url 'library:index' %}" class="nav-link active" aria-current="page">Головна</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="genresDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Жанри
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="genresDropdown">
+                        {% get_all_genres as all_genres %}
+                        {% for genre in all_genres %}
+                            <li><a class="dropdown-item" href="{% url 'library:books_by_genre' genre.genre_name %}">{{ genre.genre_name }}</a></li>
+                        {% endfor %}
+{#                        <li><a class="dropdown-item" href="#">Детективи</a></li>#}
+{#                        <li><a class="dropdown-item" href="#">Романтика</a></li>#}
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link">Популярні книги</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Добірки</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Зв'язок</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Про нас</a></li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="#" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Sign up</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 
+
+  
+  
 <header class="py-5">
     <div class="container text-center">
         <h1 class="fs-3 fw-bold">Ласкаво просимо до Book Haven</h1>
         <p class="fs-5">Зануртесь у світ літератури з ретельно підібраними творами для вас.</p>
-        <form class="d-flex justify-content-center mt-4" role="search" method="get" action="{% url 'library:search' %}">
-            <input type="search" class="form-control w-50 me-2" placeholder="введіть назву книги, жанр, автора або хоча б початок назви" aria-label="Search" name="query">
+        <form class="d-flex justify-content-center mt-4" role="search" method="get"  action="{% url 'library:search' %}">
+            <input type="search" class="form-control w-50 me-2" required placeholder="введіть назву книги, жанр, автора або хоча б початок назви" aria-label="Search" name="query">
             <button type="submit" class="btn btn-outline-primary">Пошук</button>
             {% csrf_token %}
         </form>

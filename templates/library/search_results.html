@@ -3,10 +3,11 @@
 
 {% block content %}
 
-<h2>Результати пошуку ({{ results|length }})</h2>
+
 <div class="album py-3 bg-body-tertiary">
   <div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+  <h2>Результати пошуку ({{ results|length }}):</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 mt-3">
       {% for book in results %}
       <div class="col">
         <div class="card shadow-sm h-100 d-flex flex-column" style="border-radius: 20px; background-color: azure">

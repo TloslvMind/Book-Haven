@@ -6,21 +6,20 @@ from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.postgres.search import TrigramSimilarity
+from taggit.models import Tag
+from django.db.models import Count
 
 # Create your views here.
 def library(request):
     return render(request, 'library/index.html')
 
 
-def latest_books(request):
-    latest_books_list = Book.published.all()
-    return render(request, 'library/landing.html', {'books': latest_books_list})
-
-
 def book_detail(request, book_slug):
     book = get_object_or_404(Book, slug=book_slug, status="PB")
-
-    context = {'book': book}
+    books_tags_ids = book.tags.values_list('id', flat=True)
+    similar_books = Book.published.filter(tags__in=books_tags_ids).exclude(id=book.id)
+    similar_books = similar_books.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+    context = {'book': book, "similar_books": similar_books}
     return render(request, 'library/book_detail.html', context)
 
 
@@ -89,7 +88,15 @@ def search(request):
                               TrigramSimilarity('description', query) +
                               TrigramSimilarity('summary', query) +
                               TrigramSimilarity('genre__genre_name', query) +
-                              TrigramSimilarity('genre__description', query)
-                                          ).filter(similarity__gt=0.2).order_by('-similarity')
+                              TrigramSimilarity('genre__description', query) +
+                              TrigramSimilarity('genre__slug', query) +
+                              TrigramSimilarity('slug', query)
+                                              ).filter(similarity__gt=0.15).order_by('-similarity')
 
         return render(request, 'library/search_results.html', {'results': results})
+
+
+def books_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    books_by_tag_list = Book.published.filter(tags__in=[tag]).exclude()
+    return render(request, 'library/books_by_tag.html', {'books': books_by_tag_list})
