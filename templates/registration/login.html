@@ -10,7 +10,7 @@
 
 
 <div class="container d-flex justify-content-center pt-5" style="min-height: 100vh;">
-    <div class="w-50"> <!-- Обмеження ширини -->
+    <div class="w-0"> <!-- Обмеження ширини -->
     {% if request.user.is_authenticated %}
       <h2>You have already logged in!</h2>
       <p>You can <a href="{% url 'logout' %}">log out </a>to log in again</p>
@@ -24,12 +24,15 @@
                 <p>Please, use the following form to log in:</p>
             {% endif %}
 
-            <form action="{% url 'login' %}" method="post">
+            <form class="login-form" action="{% url 'login' %}" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="hidden" name="next" value="{{ next }}" />
-                <button type="submit" class="btn btn-primary">Log in</button>
+                <input type="submit" value="Log in">
             </form>
+            <p >
+                <a href="{% url 'password_reset' %}">Forgotten your password?</a>
+            </p>
         </div>
     </div>
 {% endif %}
