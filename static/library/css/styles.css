@@ -127,3 +127,8 @@ form {
         width: auto;
         border-radius: 4px;
     }
+
+nav .nav-link.selected {
+    font-weight:800; /* Жирніший шрифт для вибраного елементу */
+    transition: color 0.3s ease;
+}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Log in{% endblock %}
+{% block style %}
+    {{ block.super }}
+{#    <link type="text/css" rel="stylesheet" href="{% static 'account/css/styles.css' %}">#}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container d-flex justify-content-center pt-5" style="min-height: 100vh;">
+    <div class="w-50"> <!-- Обмеження ширини -->
+    {% if request.user.is_authenticated %}
+      <h2>You have already logged in!</h2>
+      <p>You can <a href="{% url 'logout' %}">log out </a>to log in again</p>
+          {% else %}
+            <h1>Log in</h1>
+            {% if form.errors %}
+                <p>
+                    Your username and password didn't match. Please try again.
+                </p>
+            {% else %}
+                <p>Please, use the following form to log in:</p>
+            {% endif %}
+
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="hidden" name="next" value="{{ next }}" />
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </form>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

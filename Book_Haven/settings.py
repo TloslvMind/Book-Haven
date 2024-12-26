@@ -14,6 +14,8 @@ from pathlib import Path
 from decouple import config
 import os
 
+from django.contrib.auth import login
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -148,3 +151,10 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+
+
+#Authorization and redirects
+LOGIN_REDIRECT_URL = 'library:index'
+# LOGOUT_REDIRECT_URL = 'library:index'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'

@@ -11,7 +11,7 @@ from django.db.models import Count
 
 # Create your views here.
 def library(request):
-    return render(request, 'library/index.html')
+    return render(request, 'library/index.html', context={'section': 'main'})
 
 
 def book_detail(request, book_slug):
@@ -25,7 +25,7 @@ def book_detail(request, book_slug):
 
 def genres(request):
     genres_list = Genre.objects.all()
-    return render(request, 'library/genres.html', {'genres_list': genres_list})
+    return render(request, 'library/genres.html', {'genres_list': genres_list, 'section': 'genres'})
 
 
 def get_books_by_genre(request, genre_name):
@@ -98,5 +98,5 @@ def search(request):
 
 def books_by_tag(request, tag_slug):
     tag = get_object_or_404(Tag, slug=tag_slug)
-    books_by_tag_list = Book.published.filter(tags__in=[tag]).exclude()
+    books_by_tag_list = Book.published.filter(tags__in=[tag])
     return render(request, 'library/books_by_tag.html', {'books': books_by_tag_list})
