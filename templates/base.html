@@ -86,10 +86,19 @@
         </div>
     </header>
 
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+       <li class="{{ message.tags }}">{{ message|safe }}
+           <a href="" class="close">x</a>
+       </li>
+    {% endfor %}
+  </ul>
+{% endif %}
 
-    {% block content %}
+{% block content %}
 
-    {% endblock %}
+{% endblock %}
 
   <div class="container">
   <footer class="py-3 mt-5" style="background-color: #f5f1e8; border-top: 1px solid #d6d2c4;">
